@@ -30,4 +30,7 @@ $('.btn-savenote').click( function() {
 // fullscreen
 $(".btn-fullscreen").click(function () {
     console.log("fullscreen");
+    if (screenfull.enabled) {
+		screenfull.request();
+	}
 });
