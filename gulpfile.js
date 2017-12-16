@@ -25,9 +25,9 @@ gulp.task('copy:html', function() {
     .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('copy:lib', function() {
-  return gulp.src('src/lib/**/*')
-    .pipe(gulp.dest('dist/lib'));
+gulp.task('copy:img', function() {
+    return gulp.src('src/js/images/*')
+        .pipe(gulp.dest('dist/js/images'));
 });
 
 gulp.task('minify:js', function() {
@@ -54,7 +54,7 @@ gulp.task('connect', function() {
 });
 
 
-gulp.task('copy', ['copy:html', 'copy:lib']);
+gulp.task('copy', ['copy:html', 'copy:img']);
 gulp.task('build', ['concat:js', 'copy', 'minify:css']);
 gulp.task('server', ['connect'])
 gulp.task('default', ['build', 'watch', 'server']);
