@@ -369,7 +369,7 @@ $(function () {
 });
 
 // btn-newnote 적용
-$('.btn-newnote').on("click", function(){
+$('.btn-newnote').click(function(){
     window.localStorage.clear();
     location.reload();
     console.log("new note");
@@ -377,7 +377,7 @@ $('.btn-newnote').on("click", function(){
 });
 
 // download note
-$('.btn-download').on("click",function(){
+$('.btn-download').click(function(){
   console.log("note download");
   try {
         var b = new Blob([localStorage.getItem('note')],{type:"text/plain;charset=utf-8"});
