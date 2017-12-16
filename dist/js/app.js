@@ -1,1 +1,499 @@
-var saveAs=saveAs||function(e){"use strict";if(!(void 0===e||"undefined"!=typeof navigator&&/MSIE [1-9]\./.test(navigator.userAgent))){var n=function(){return e.URL||e.webkitURL||e},t=e.document.createElementNS("http://www.w3.org/1999/xhtml","a"),o="download"in t,r=/constructor/i.test(e.HTMLElement)||e.safari,l=/CriOS\/[\d]+/.test(navigator.userAgent),a=function(n){(e.setImmediate||e.setTimeout)(function(){throw n},0)},i=function(e){setTimeout(function(){"string"==typeof e?n().revokeObjectURL(e):e.remove()},4e4)},u=function(e){return/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(e.type)?new Blob([String.fromCharCode(65279),e],{type:e.type}):e},c=function(c,s,d){d||(c=u(c));var f,p=this,m="application/octet-stream"===c.type,b=function(){!function(e,n,t){for(var o=(n=[].concat(n)).length;o--;){var r=e["on"+n[o]];if("function"==typeof r)try{r.call(e,t||e)}catch(e){a(e)}}}(p,"writestart progress write writeend".split(" "))};if(p.readyState=p.INIT,o)return f=n().createObjectURL(c),void setTimeout(function(){t.href=f,t.download=s,function(e){var n=new MouseEvent("click");e.dispatchEvent(n)}(t),b(),i(f),p.readyState=p.DONE});!function(){if((l||m&&r)&&e.FileReader){var t=new FileReader;return t.onloadend=function(){var n=l?t.result:t.result.replace(/^data:[^;]*;/,"data:attachment/file;");e.open(n,"_blank")||(e.location.href=n),n=void 0,p.readyState=p.DONE,b()},t.readAsDataURL(c),void(p.readyState=p.INIT)}f||(f=n().createObjectURL(c)),m?e.location.href=f:e.open(f,"_blank")||(e.location.href=f);p.readyState=p.DONE,b(),i(f)}()},s=c.prototype;return"undefined"!=typeof navigator&&navigator.msSaveOrOpenBlob?function(e,n,t){return n=n||e.name||"download",t||(e=u(e)),navigator.msSaveOrOpenBlob(e,n)}:(s.abort=function(){},s.readyState=s.INIT=0,s.WRITING=1,s.DONE=2,s.error=s.onwritestart=s.onprogress=s.onwrite=s.onabort=s.onerror=s.onwriteend=null,function(e,n,t){return new c(e,n||e.name||"download",t)})}}("undefined"!=typeof self&&self||"undefined"!=typeof window&&window||this.content);"undefined"!=typeof module&&module.exports?module.exports.saveAs=saveAs:"undefined"!=typeof define&&null!==define&&null!==define.amd&&define("FileSaver.js",function(){return saveAs}),function(){"use strict";var e="undefined"!=typeof window&&void 0!==window.document?window.document:{},n="undefined"!=typeof module&&module.exports,t="undefined"!=typeof Element&&"ALLOW_KEYBOARD_INPUT"in Element,o=function(){for(var n,t=[["requestFullscreen","exitFullscreen","fullscreenElement","fullscreenEnabled","fullscreenchange","fullscreenerror"],["webkitRequestFullscreen","webkitExitFullscreen","webkitFullscreenElement","webkitFullscreenEnabled","webkitfullscreenchange","webkitfullscreenerror"],["webkitRequestFullScreen","webkitCancelFullScreen","webkitCurrentFullScreenElement","webkitCancelFullScreen","webkitfullscreenchange","webkitfullscreenerror"],["mozRequestFullScreen","mozCancelFullScreen","mozFullScreenElement","mozFullScreenEnabled","mozfullscreenchange","mozfullscreenerror"],["msRequestFullscreen","msExitFullscreen","msFullscreenElement","msFullscreenEnabled","MSFullscreenChange","MSFullscreenError"]],o=0,r=t.length,l={};o<r;o++)if((n=t[o])&&n[1]in e){for(o=0;o<n.length;o++)l[t[0][o]]=n[o];return l}return!1}(),r={change:o.fullscreenchange,error:o.fullscreenerror},l={request:function(n){var r=o.requestFullscreen;n=n||e.documentElement,/ Version\/5\.1(?:\.\d+)? Safari\//.test(navigator.userAgent)?n[r]():n[r](t&&Element.ALLOW_KEYBOARD_INPUT)},exit:function(){e[o.exitFullscreen]()},toggle:function(e){this.isFullscreen?this.exit():this.request(e)},onchange:function(e){this.on("change",e)},onerror:function(e){this.on("error",e)},on:function(n,t){var o=r[n];o&&e.addEventListener(o,t,!1)},off:function(n,t){var o=r[n];o&&e.removeEventListener(o,t,!1)},raw:o};o?(Object.defineProperties(l,{isFullscreen:{get:function(){return Boolean(e[o.fullscreenElement])}},element:{enumerable:!0,get:function(){return e[o.fullscreenElement]}},enabled:{enumerable:!0,get:function(){return Boolean(e[o.fullscreenEnabled])}}}),n?module.exports=l:window.screenfull=l):n?module.exports=!1:window.screenfull=!1}(),console.log("my-note app.js"),$(function(){localStorage.getItem("note")&&$("#memo").val(localStorage.getItem("note")),$(".btn-about").paulund_modal_box()}),$(".btn-newnote").on("click",function(){return window.localStorage.clear(),location.reload(),console.log("new note"),!1}),$(".btn-download").on("click",function(){console.log("note download");try{var e=new Blob([localStorage.getItem("note")],{type:"text/plain;charset=utf-8"});saveAs(e,"test.txt")}catch(e){window.open("data:text/plain;charset=utf-8,"+encodeURIComponent(localStorage.getItem("note")),"_blank","")}}),$(".btn-savenote").click(function(){var e=$("#memo").val();return localStorage.setItem("note",e),console.log("save note"),!1}),$(".btn-fullscreen").click(function(){console.log("fullscreen"),screenfull.enabled&&screenfull.request()}),function(e){e.fn.paulund_modal_box=function(n){var t=e.extend({height:"250",width:"500",title:"Note Web Application",description:"Final Test",top:"20%",left:"30%"},n);return this.click(function(n){!function(){var n=e('<div class="paulund_block_page"></div>');e(n).appendTo("body")}(),function(){var n=e('<div class="paulund_modal_box"><a href="#" class="paulund_modal_close"></a><div class="paulund_inner_modal_box"><h2>'+t.title+"</h2><p>"+t.description+"</p></div></div>");e(n).appendTo(".paulund_block_page"),e(".paulund_modal_close").click(function(){e(this).parent().fadeOut().remove(),e(".paulund_block_page").fadeOut().remove()})}(),function(){e(".paulund_modal_box").css({position:"absolute",left:t.left,top:t.top,display:"none",height:t.height+"px",width:t.width+"px",border:"1px solid #fff","box-shadow":"0px 2px 7px #292929","-moz-box-shadow":"0px 2px 7px #292929","-webkit-box-shadow":"0px 2px 7px #292929","border-radius":"10px","-moz-border-radius":"10px","-webkit-border-radius":"10px",background:"#f2f2f2","z-index":"50"}),e(".paulund_modal_close").css({position:"relative",top:"-25px",left:"20px",float:"right",display:"block",height:"50px",width:"50px",background:"url(js/images/close.png) no-repeat"});var n=e(document).height(),o=e(window).width();e(".paulund_block_page").css({position:"absolute",top:"0",left:"0","background-color":"rgba(0,0,0,0.6)",height:n,width:o,"z-index":"10"}),e(".paulund_inner_modal_box").css({"background-color":"#fff",height:t.height-50+"px",width:t.width-50+"px",padding:"10px",margin:"15px","border-radius":"10px","-moz-border-radius":"10px","-webkit-border-radius":"10px"})}(),e(".paulund_modal_box").fadeIn()})}}(jQuery);
+/* FileSaver.js
+ * A saveAs() FileSaver implementation.
+ * 1.3.2
+ * 2016-06-16 18:25:19
+ *
+ * By Eli Grey, http://eligrey.com
+ * License: MIT
+ *   See https://github.com/eligrey/FileSaver.js/blob/master/LICENSE.md
+ */
+
+/*global self */
+/*jslint bitwise: true, indent: 4, laxbreak: true, laxcomma: true, smarttabs: true, plusplus: true */
+
+/*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
+
+var saveAs = saveAs || (function(view) {
+	"use strict";
+	// IE <10 is explicitly unsupported
+	if (typeof view === "undefined" || typeof navigator !== "undefined" && /MSIE [1-9]\./.test(navigator.userAgent)) {
+		return;
+	}
+	var
+		  doc = view.document
+		  // only get URL when necessary in case Blob.js hasn't overridden it yet
+		, get_URL = function() {
+			return view.URL || view.webkitURL || view;
+		}
+		, save_link = doc.createElementNS("http://www.w3.org/1999/xhtml", "a")
+		, can_use_save_link = "download" in save_link
+		, click = function(node) {
+			var event = new MouseEvent("click");
+			node.dispatchEvent(event);
+		}
+		, is_safari = /constructor/i.test(view.HTMLElement) || view.safari
+		, is_chrome_ios =/CriOS\/[\d]+/.test(navigator.userAgent)
+		, throw_outside = function(ex) {
+			(view.setImmediate || view.setTimeout)(function() {
+				throw ex;
+			}, 0);
+		}
+		, force_saveable_type = "application/octet-stream"
+		// the Blob API is fundamentally broken as there is no "downloadfinished" event to subscribe to
+		, arbitrary_revoke_timeout = 1000 * 40 // in ms
+		, revoke = function(file) {
+			var revoker = function() {
+				if (typeof file === "string") { // file is an object URL
+					get_URL().revokeObjectURL(file);
+				} else { // file is a File
+					file.remove();
+				}
+			};
+			setTimeout(revoker, arbitrary_revoke_timeout);
+		}
+		, dispatch = function(filesaver, event_types, event) {
+			event_types = [].concat(event_types);
+			var i = event_types.length;
+			while (i--) {
+				var listener = filesaver["on" + event_types[i]];
+				if (typeof listener === "function") {
+					try {
+						listener.call(filesaver, event || filesaver);
+					} catch (ex) {
+						throw_outside(ex);
+					}
+				}
+			}
+		}
+		, auto_bom = function(blob) {
+			// prepend BOM for UTF-8 XML and text/* types (including HTML)
+			// note: your browser will automatically convert UTF-16 U+FEFF to EF BB BF
+			if (/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(blob.type)) {
+				return new Blob([String.fromCharCode(0xFEFF), blob], {type: blob.type});
+			}
+			return blob;
+		}
+		, FileSaver = function(blob, name, no_auto_bom) {
+			if (!no_auto_bom) {
+				blob = auto_bom(blob);
+			}
+			// First try a.download, then web filesystem, then object URLs
+			var
+				  filesaver = this
+				, type = blob.type
+				, force = type === force_saveable_type
+				, object_url
+				, dispatch_all = function() {
+					dispatch(filesaver, "writestart progress write writeend".split(" "));
+				}
+				// on any filesys errors revert to saving with object URLs
+				, fs_error = function() {
+					if ((is_chrome_ios || (force && is_safari)) && view.FileReader) {
+						// Safari doesn't allow downloading of blob urls
+						var reader = new FileReader();
+						reader.onloadend = function() {
+							var url = is_chrome_ios ? reader.result : reader.result.replace(/^data:[^;]*;/, 'data:attachment/file;');
+							var popup = view.open(url, '_blank');
+							if(!popup) view.location.href = url;
+							url=undefined; // release reference before dispatching
+							filesaver.readyState = filesaver.DONE;
+							dispatch_all();
+						};
+						reader.readAsDataURL(blob);
+						filesaver.readyState = filesaver.INIT;
+						return;
+					}
+					// don't create more object URLs than needed
+					if (!object_url) {
+						object_url = get_URL().createObjectURL(blob);
+					}
+					if (force) {
+						view.location.href = object_url;
+					} else {
+						var opened = view.open(object_url, "_blank");
+						if (!opened) {
+							// Apple does not allow window.open, see https://developer.apple.com/library/safari/documentation/Tools/Conceptual/SafariExtensionGuide/WorkingwithWindowsandTabs/WorkingwithWindowsandTabs.html
+							view.location.href = object_url;
+						}
+					}
+					filesaver.readyState = filesaver.DONE;
+					dispatch_all();
+					revoke(object_url);
+				}
+			;
+			filesaver.readyState = filesaver.INIT;
+
+			if (can_use_save_link) {
+				object_url = get_URL().createObjectURL(blob);
+				setTimeout(function() {
+					save_link.href = object_url;
+					save_link.download = name;
+					click(save_link);
+					dispatch_all();
+					revoke(object_url);
+					filesaver.readyState = filesaver.DONE;
+				});
+				return;
+			}
+
+			fs_error();
+		}
+		, FS_proto = FileSaver.prototype
+		, saveAs = function(blob, name, no_auto_bom) {
+			return new FileSaver(blob, name || blob.name || "download", no_auto_bom);
+		}
+	;
+	// IE 10+ (native saveAs)
+	if (typeof navigator !== "undefined" && navigator.msSaveOrOpenBlob) {
+		return function(blob, name, no_auto_bom) {
+			name = name || blob.name || "download";
+
+			if (!no_auto_bom) {
+				blob = auto_bom(blob);
+			}
+			return navigator.msSaveOrOpenBlob(blob, name);
+		};
+	}
+
+	FS_proto.abort = function(){};
+	FS_proto.readyState = FS_proto.INIT = 0;
+	FS_proto.WRITING = 1;
+	FS_proto.DONE = 2;
+
+	FS_proto.error =
+	FS_proto.onwritestart =
+	FS_proto.onprogress =
+	FS_proto.onwrite =
+	FS_proto.onabort =
+	FS_proto.onerror =
+	FS_proto.onwriteend =
+		null;
+
+	return saveAs;
+}(
+	   typeof self !== "undefined" && self
+	|| typeof window !== "undefined" && window
+	|| this.content
+));
+// `self` is undefined in Firefox for Android content script context
+// while `this` is nsIContentFrameMessageManager
+// with an attribute `content` that corresponds to the window
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports.saveAs = saveAs;
+} else if ((typeof define !== "undefined" && define !== null) && (define.amd !== null)) {
+  define("FileSaver.js", function() {
+    return saveAs;
+  });
+}
+
+/*!
+* screenfull
+* v3.3.2 - 2017-10-27
+* (c) Sindre Sorhus; MIT License
+*/
+(function () {
+	'use strict';
+
+	var document = typeof window !== 'undefined' && typeof window.document !== 'undefined' ? window.document : {};
+	var isCommonjs = typeof module !== 'undefined' && module.exports;
+	var keyboardAllowed = typeof Element !== 'undefined' && 'ALLOW_KEYBOARD_INPUT' in Element;
+
+	var fn = (function () {
+		var val;
+
+		var fnMap = [
+			[
+				'requestFullscreen',
+				'exitFullscreen',
+				'fullscreenElement',
+				'fullscreenEnabled',
+				'fullscreenchange',
+				'fullscreenerror'
+			],
+			// New WebKit
+			[
+				'webkitRequestFullscreen',
+				'webkitExitFullscreen',
+				'webkitFullscreenElement',
+				'webkitFullscreenEnabled',
+				'webkitfullscreenchange',
+				'webkitfullscreenerror'
+
+			],
+			// Old WebKit (Safari 5.1)
+			[
+				'webkitRequestFullScreen',
+				'webkitCancelFullScreen',
+				'webkitCurrentFullScreenElement',
+				'webkitCancelFullScreen',
+				'webkitfullscreenchange',
+				'webkitfullscreenerror'
+
+			],
+			[
+				'mozRequestFullScreen',
+				'mozCancelFullScreen',
+				'mozFullScreenElement',
+				'mozFullScreenEnabled',
+				'mozfullscreenchange',
+				'mozfullscreenerror'
+			],
+			[
+				'msRequestFullscreen',
+				'msExitFullscreen',
+				'msFullscreenElement',
+				'msFullscreenEnabled',
+				'MSFullscreenChange',
+				'MSFullscreenError'
+			]
+		];
+
+		var i = 0;
+		var l = fnMap.length;
+		var ret = {};
+
+		for (; i < l; i++) {
+			val = fnMap[i];
+			if (val && val[1] in document) {
+				for (i = 0; i < val.length; i++) {
+					ret[fnMap[0][i]] = val[i];
+				}
+				return ret;
+			}
+		}
+
+		return false;
+	})();
+
+	var eventNameMap = {
+		change: fn.fullscreenchange,
+		error: fn.fullscreenerror
+	};
+
+	var screenfull = {
+		request: function (elem) {
+			var request = fn.requestFullscreen;
+
+			elem = elem || document.documentElement;
+
+			// Work around Safari 5.1 bug: reports support for
+			// keyboard in fullscreen even though it doesn't.
+			// Browser sniffing, since the alternative with
+			// setTimeout is even worse.
+			if (/ Version\/5\.1(?:\.\d+)? Safari\//.test(navigator.userAgent)) {
+				elem[request]();
+			} else {
+				elem[request](keyboardAllowed && Element.ALLOW_KEYBOARD_INPUT);
+			}
+		},
+		exit: function () {
+			document[fn.exitFullscreen]();
+		},
+		toggle: function (elem) {
+			if (this.isFullscreen) {
+				this.exit();
+			} else {
+				this.request(elem);
+			}
+		},
+		onchange: function (callback) {
+			this.on('change', callback);
+		},
+		onerror: function (callback) {
+			this.on('error', callback);
+		},
+		on: function (event, callback) {
+			var eventName = eventNameMap[event];
+			if (eventName) {
+				document.addEventListener(eventName, callback, false);
+			}
+		},
+		off: function (event, callback) {
+			var eventName = eventNameMap[event];
+			if (eventName) {
+				document.removeEventListener(eventName, callback, false);
+			}
+		},
+		raw: fn
+	};
+
+	if (!fn) {
+		if (isCommonjs) {
+			module.exports = false;
+		} else {
+			window.screenfull = false;
+		}
+
+		return;
+	}
+
+	Object.defineProperties(screenfull, {
+		isFullscreen: {
+			get: function () {
+				return Boolean(document[fn.fullscreenElement]);
+			}
+		},
+		element: {
+			enumerable: true,
+			get: function () {
+				return document[fn.fullscreenElement];
+			}
+		},
+		enabled: {
+			enumerable: true,
+			get: function () {
+				// Coerce to boolean in case of old WebKit
+				return Boolean(document[fn.fullscreenEnabled]);
+			}
+		}
+	});
+
+	if (isCommonjs) {
+		module.exports = screenfull;
+	} else {
+		window.screenfull = screenfull;
+	}
+})();
+
+console.log('my-note app.js');
+// var FileSaver = require('file-saver');
+
+// memo
+$(function () {
+    if(localStorage.getItem('note')) {
+        $('#memo').val(localStorage.getItem('note'));
+    }
+    //about note
+    $('.btn-about').paulund_modal_box();
+});
+
+// btn-newnote 적용
+$('.btn-newnote').on("click", function(){
+    window.localStorage.clear();
+    location.reload();
+    console.log("new note");
+    return false;
+});
+
+// download note
+$('.btn-download').on("click",function(){
+  console.log("note download");
+  try {
+        var b = new Blob([localStorage.getItem('note')],{type:"text/plain;charset=utf-8"});
+        saveAs(b,"test.txt");
+      }catch(e){
+        window.open("data:"+"text/plain;charset=utf-8"+"," + encodeURIComponent(localStorage.getItem('note')), '_blank','');
+      }
+});
+
+// savenote
+$('.btn-savenote').click( function() {
+    var note = $('#memo').val();
+    localStorage.setItem('note', note);
+    console.log("save note");
+    return false;
+});
+
+// fullscreen
+$('.btn-fullscreen').click(function () {
+    console.log("fullscreen");
+    if (screenfull.enabled) {
+		screenfull.request();
+	}
+});
+
+(function($){
+
+    $.fn.paulund_modal_box = function(prop){
+
+        var options = $.extend({
+            height : "250",
+            width : "500",
+            title:"Note Web Application",
+            description: "Final Test",
+            top: "20%",
+            left: "30%",
+        },prop);
+
+        return this.click(function(e){
+            add_block_page();
+            add_popup_box();
+            add_styles();
+
+            $('.paulund_modal_box').fadeIn();
+        });
+
+        function add_styles(){
+            $('.paulund_modal_box').css({
+                'position':'absolute',
+                'left':options.left,
+                'top':options.top,
+                'display':'none',
+                'height': options.height + 'px',
+                'width': options.width + 'px',
+                'border':'1px solid #fff',
+                'box-shadow': '0px 2px 7px #292929',
+                '-moz-box-shadow': '0px 2px 7px #292929',
+                '-webkit-box-shadow': '0px 2px 7px #292929',
+                'border-radius':'10px',
+                '-moz-border-radius':'10px',
+                '-webkit-border-radius':'10px',
+                'background': '#f2f2f2',
+                'z-index':'50'
+            });
+            $('.paulund_modal_close').css({
+                'position':'relative',
+                'top':'-25px',
+                'left':'20px',
+                'float':'right',
+                'display':'block',
+                'height':'50px',
+                'width':'50px',
+                'background': "url(js/images/close.png) no-repeat"
+            });
+            /*Block page overlay*/
+            var pageHeight = $(document).height();
+            var pageWidth = $(window).width();
+
+            $('.paulund_block_page').css({
+                'position':'absolute',
+                'top':'0',
+                'left':'0',
+                'background-color':'rgba(0,0,0,0.6)',
+                'height':pageHeight,
+                'width':pageWidth,
+                'z-index':'10'
+            });
+            $('.paulund_inner_modal_box').css({
+                'background-color':'#fff',
+                'height':(options.height - 50) + 'px',
+                'width':(options.width - 50) + 'px',
+                'padding':'10px',
+                'margin':'15px',
+                'border-radius':'10px',
+                '-moz-border-radius':'10px',
+                '-webkit-border-radius':'10px'
+            });
+        }
+
+        function add_block_page(){
+            var block_page = $('<div class="paulund_block_page"></div>');
+
+            $(block_page).appendTo('body');
+        }
+
+        function add_popup_box(){
+            var pop_up = $('<div class="paulund_modal_box"><a href="#" class="paulund_modal_close"></a><div class="paulund_inner_modal_box"><h2>' + options.title + '</h2><p>' + options.description + '</p></div></div>');
+            $(pop_up).appendTo('.paulund_block_page');
+
+            $('.paulund_modal_close').click(function(){
+                $(this).parent().fadeOut().remove();
+                $('.paulund_block_page').fadeOut().remove();
+            });
+        }
+
+        return this;
+    };
+
+})(jQuery);
