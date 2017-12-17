@@ -45,6 +45,11 @@ gulp.task('watch', function() {
   gulp.watch('src/**/*', ['build']);
 });
 
+gulp.task('copy:lib', function() {
+  return gulp.src('src/lib/**/*')
+    .pipe(gulp.dest('dist/lib'));
+});
+
 gulp.task('connect', function() {
   connect.server({
     root: 'dist',
@@ -54,7 +59,7 @@ gulp.task('connect', function() {
 });
 
 
-gulp.task('copy', ['copy:html', 'copy:img']);
+gulp.task('copy', ['copy:html', 'copy:img', 'copy:lib']);
 gulp.task('build', ['concat:js', 'copy', 'minify:css']);
 gulp.task('server', ['connect'])
 gulp.task('default', ['build', 'watch', 'server']);
